@@ -19,8 +19,8 @@ return [
 
     // الـ domains المسموح لها تبعت requests
     'allowed_origins' => [
-        'http://161.97.130.147.nip.io',
-        'http://api.161.97.130.147.nip.io',
+        'https://161.97.130.147.nip.io',
+        'https://api.161.97.130.147.nip.io',
     ],
 
     // لو عايز تعمل regex بدل ما تكتب الـ origins صريحة
