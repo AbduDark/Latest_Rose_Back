@@ -3,16 +3,59 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Traits\ApiResponseTrait;
 use App\Models\Lesson;
+use App\Traits\ApiResponseTrait;
+use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\Subscription; // Import Subscription model
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use App\Models\User;
 class LessonController extends Controller
 {
+    use ApiResponseTrait;
+
+    /**
+     * Get all lessons for admin
+     */
+    public function adminIndex(Request $request)
+    {
+        try {
+            $query = Lesson::with(['course']);
+
+            // Search functionality
+            if ($request->has('search')) {
+                $search = $request->get('search');
+                $query->where(function($q) use ($search) {
+                    $q->where('title', 'like', "%{$search}%")
+                      ->orWhere('description', 'like', "%{$search}%");
+                });
+            }
+
+            // Filter by course
+            if ($request->has('course_id')) {
+                $query->where('course_id', $request->get('course_id'));
+            }
+
+            // Filter by gender
+            if ($request->has('target_gender')) {
+                $query->where('target_gender', $request->get('target_gender'));
+            }
+
+            $lessons = $query->orderBy('order', 'asc')
+                           ->orderBy('created_at', 'desc')
+                           ->paginate($request->get('per_page', 15));
+
+            return $this->successResponse($lessons, [
+                'ar' => 'تم جلب جميع الدروس بنجاح',
+                'en' => 'All lessons retrieved successfully'
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Admin get lessons error: ' . $e->getMessage());
+            return $this->serverErrorResponse();
+        }
+    }
     use ApiResponseTrait;
     public function index($courseId, Request $request)
     {
@@ -91,8 +134,8 @@ class LessonController extends Controller
 
     public function show($id)
     {
-        try {
-              /** @var User $user */
+        try {   /** @var User $user */
+              
             $user = auth()->user();
 
             if (!$user) {

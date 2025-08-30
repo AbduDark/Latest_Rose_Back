@@ -116,6 +116,7 @@ Route::middleware(['auth:sanctum', AdminMiddleware::class])
 
     // Courses & Lessons
     Route::apiResource('courses', CourseController::class)->except(['index', 'show']);
+    Route::get('lessons', [LessonController::class, 'adminIndex']);
     Route::apiResource('lessons', LessonController::class)->except(['index', 'show']);
 
     // Users
