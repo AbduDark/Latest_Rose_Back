@@ -1,5 +1,3 @@
 .attached_assets/
 .vendor/laravel/sail/runtimes/
 .vendor/*/tests/ vendor/*/*/tests/ vendor/*/*/*/tests/ vendor/*/*/*/*/tests/ vendor/hamcrest/hamcrest-php/generator/ vendor/phpunit/phpunit/schema/ vendor/mockery/mockery/docs/ vendor/nikic/php-parser/bin/ vendor/phpdocumentor/*/docs/ vendor/symfony/*/Resources/bin/ vendor/laravel/framework/src/Illuminate/Foundation/Console/stubs/ vendor/laravel/sail/stubs/ vendor/laravel/sail/database/ vendor/pestphp/*/stubs/
-.env
-.env.example
